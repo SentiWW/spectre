@@ -31,10 +31,10 @@ void observe_victim(uint64_t x) {
 
     memset(&pe, 0, sizeof(struct perf_event_attr) * NUM_EVENTS);
 
-    //pe[0].type = PERF_TYPE_HARDWARE;
-    //pe[0].config = PERF_COUNT_HW_BRANCH_INSTRUCTIONS;
-    //pe[1].type = PERF_TYPE_HARDWARE;
-    //pe[1].config = PERF_COUNT_HW_BRANCH_MISSES;
+    pe[0].type = PERF_TYPE_HARDWARE;
+    pe[0].config = PERF_COUNT_HW_BRANCH_INSTRUCTIONS;
+    pe[1].type = PERF_TYPE_HARDWARE;
+    pe[1].config = PERF_COUNT_HW_BRANCH_MISSES;
     pe[2].type = PERF_TYPE_HARDWARE;
     pe[2].config = PERF_COUNT_HW_CACHE_REFERENCES;
     pe[3].type = PERF_TYPE_HARDWARE;
@@ -83,8 +83,8 @@ void flush_cache() {
 
 int main()
 {
-    output << "Index;Branch instructions;Branch misses;Branch miss rate" << std::endl;
-    //output << "Index;Branch instructions;Branch misses;Branch miss rate;Cache references;Cache misses;Cache miss rate" << std::endl;
+    //output << "Index;Branch instructions;Branch misses;Branch miss rate" << std::endl;
+    output << "Index;Branch instructions;Branch misses;Branch miss rate;Cache references;Cache misses;Cache miss rate" << std::endl;
     for (int i = 0; i < 1000; i++) {
         if (i % 25 == 0) {
             observe_victim(i % array_size + array_size);
