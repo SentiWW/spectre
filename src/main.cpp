@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <sys/ioctl.h>
+#include <sys/syscall.h>
 #include <linux/perf_event.h>
 
 #define NUM_EVENTS 2
