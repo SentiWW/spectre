@@ -6,6 +6,7 @@
 #include <sys/ioctl.h>
 #include <sys/syscall.h>
 #include <linux/perf_event.h>
+#include <linux/types.h>
 
 #define NUM_EVENTS 2
 
@@ -65,14 +66,32 @@ void observe_victim(uint64_t x) {
     std::cout << "Cache miss rate: " << count[1] / count[0] << std::endl;
 }
 
+void flush_cache() {
+    // Get the number of online CPUs
+    long nprocs = sysconf(_SC_NPROCESSORS_ONLN);
+
+    // Flush the cache for each CPU
+    for (int i = 0; i < nprocs; ++i) {
+        // Use the cacheflush system call to flush the cache
+        syscall(__NR_cacheflush, nullptr, 0, 0);
+    }
+}
+
 int main()
 {
+    flush_cache();
     observe_victim(0);
+    flush_cache();
     observe_victim(0);
+    flush_cache();
     observe_victim(0);
+    flush_cache();
     observe_victim(0);
+    flush_cache();
     observe_victim(0);
+    flush_cache();
     observe_victim(0);
+    flush_cache();
     observe_victim(12);
 
     return 0;
