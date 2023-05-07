@@ -12,7 +12,7 @@
 #include <emmintrin.h>
 
 #define NUM_EVENTS 4
-#define CACHE_HIT_THRESHOLD 45
+#define CACHE_HIT_THRESHOLD 30
 
 //std::ofstream output("output.csv");
 //int array_size = 10;
