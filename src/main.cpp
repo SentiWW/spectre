@@ -20,8 +20,7 @@ void victim_function(uint64_t x) {
     }
 }
 
-int main()
-{
+void observe_victim(uint64_t x) {
     struct perf_event_attr pe[NUM_EVENTS];
     int fd[NUM_EVENTS];
     uint64_t count[NUM_EVENTS];
@@ -50,6 +49,7 @@ int main()
     }
 
     // Spectre attack
+    victim_function(x);
 
     // Stop the performance counters and read the counts
     for (int i = 0; i < NUM_EVENTS; i++) {
@@ -59,9 +59,21 @@ int main()
     }
 
     // Print the results
+    std::cout << "Accessing index: " << x << std::endl;
     std::cout << "Cache references: " << count[0] << std::endl;
     std::cout << "Cache misses: " << count[1] << std::endl;
     std::cout << "Cache miss rate: " << count[1] / count[0] << std::endl;
+}
+
+int main()
+{
+    observe_victim(0);
+    observe_victim(0);
+    observe_victim(0);
+    observe_victim(0);
+    observe_victim(0);
+    observe_victim(0);
+    observe_victim(12);
 
     return 0;
 }
