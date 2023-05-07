@@ -11,6 +11,8 @@
 
 #define NUM_EVENTS 2
 
+
+std::ofstream output("output.csv");
 uint64_t array_size = 10;
 uint64_t array[10] = {
     0, 1, 2, 3, 4, 5, 6, 7, 8, 9
@@ -61,11 +63,8 @@ void observe_victim(uint64_t x) {
     }
 
     // Print the results
-    std::ofstream output("output.csv");
-    output << "Index;Cache references;Cache misses;Cache miss rate" << std::endl;
     output << x << ";" << count[0] << ";" << count[1] << ";" << (double)count[1] / count[0] << std::endl;
     output.flush();
-    output.close();
 }
 
 void flush_cache() {
@@ -78,6 +77,7 @@ void flush_cache() {
 
 int main()
 {
+    output << "Index;Cache references;Cache misses;Cache miss rate" << std::endl;
     for (int i = 0; i < 100; i++) {
         flush_cache();
         if (i % 25 == 0) {
@@ -87,6 +87,7 @@ int main()
             observe_victim(i % 10);
         }
     }
+    output.close();
 
     return 0;
 }
