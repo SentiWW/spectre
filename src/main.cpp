@@ -66,11 +66,12 @@ void observe_victim(uint64_t x) {
     std::cout << "Cache miss rate: " << count[1] / count[0] << std::endl;
 }
 
-unsigned char probe_array[256 * 4096] = {0};
 void flush_cache() {
-    for (int i = 0; i < 256; i++) {
-        _mm_clflush(&probe_array[i * 4096]);
-    }
+    const int size = 20*1024*1024;
+     char *c = (char *)malloc(size);
+     for (int i = 0; i < 0xffff; i++)
+       for (int j = 0; j < size; j++)
+         c[j] = i*j;
 }
 
 int main()
