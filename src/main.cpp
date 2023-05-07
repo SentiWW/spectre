@@ -7,6 +7,7 @@
 #include <sys/syscall.h>
 #include <linux/perf_event.h>
 #include <linux/types.h>
+#include <asm/cachectl.h>
 
 #define NUM_EVENTS 2
 
@@ -73,7 +74,7 @@ void flush_cache() {
     // Flush the cache for each CPU
     for (int i = 0; i < nprocs; ++i) {
         // Use the cacheflush system call to flush the cache
-        syscall(__NR_cacheflush, nullptr, 0, 0);
+        syscall(__NR_cacheflush, nullptr, 0, CACHE_FLUSH);
     }
 }
 
