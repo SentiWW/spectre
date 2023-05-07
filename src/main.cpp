@@ -35,10 +35,10 @@ void observe_victim(uint64_t x) {
     pe[0].config = PERF_COUNT_HW_BRANCH_INSTRUCTIONS;
     pe[1].type = PERF_TYPE_HARDWARE;
     pe[1].config = PERF_COUNT_HW_BRANCH_MISSES;
-    pe[2].type = PERF_TYPE_HARDWARE;
-    pe[2].config = PERF_COUNT_HW_CACHE_REFERENCES;
-    pe[3].type = PERF_TYPE_HARDWARE;
-    pe[3].config = PERF_COUNT_HW_CACHE_MISSES;
+    //pe[2].type = PERF_TYPE_HARDWARE;
+    //pe[2].config = PERF_COUNT_HW_CACHE_REFERENCES;
+    //pe[3].type = PERF_TYPE_HARDWARE;
+    //pe[3].config = PERF_COUNT_HW_CACHE_MISSES;
 
     // Create the performance counters
     for (int i = 0; i < NUM_EVENTS; i++) {
@@ -70,7 +70,6 @@ void observe_victim(uint64_t x) {
            << count[0] << ";" 
            << count[1] << ";" 
            << (double)count[1] / count[0] << std::endl;
-    output.flush();
 }
 
 void flush_cache() {
@@ -83,9 +82,9 @@ void flush_cache() {
 
 int main()
 {
-    //output << "Index;Branch instructions;Branch misses;Branch miss rate" << std::endl;
-    output << "Index;Branch instructions;Branch misses;Branch miss rate;Cache references;Cache misses;Cache miss rate" << std::endl;
-    for (int i = 0; i < 1000; i++) {
+    output << "Index;Branch instructions;Branch misses;Branch miss rate" << std::endl;
+    //output << "Index;Branch instructions;Branch misses;Branch miss rate;Cache references;Cache misses;Cache miss rate" << std::endl;
+    for (int i = 0; i < 1000000; i++) {
         if (i % 25 == 0) {
             observe_victim(i % array_size + array_size);
         }
@@ -93,6 +92,7 @@ int main()
             observe_victim(i % array_size);
         }
     }
+    output.flush();
     output.close();
 
     system("python3 ./main.py");
