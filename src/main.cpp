@@ -9,7 +9,7 @@
 #include <linux/types.h>
 #include <fstream>
 
-#define NUM_EVENTS 2
+#define NUM_EVENTS 4
 
 
 std::ofstream output("output.csv");
@@ -31,16 +31,14 @@ void observe_victim(uint64_t x) {
 
     memset(&pe, 0, sizeof(struct perf_event_attr) * NUM_EVENTS);
 
-    // Define the performance events to monitor
-    //pe[0].type = PERF_TYPE_HARDWARE;
-    //pe[0].config = PERF_COUNT_HW_CACHE_REFERENCES;
-    //pe[1].type = PERF_TYPE_HARDWARE;
-    //pe[1].config = PERF_COUNT_HW_CACHE_MISSES;
-
     pe[0].type = PERF_TYPE_HARDWARE;
     pe[0].config = PERF_COUNT_HW_BRANCH_INSTRUCTIONS;
     pe[1].type = PERF_TYPE_HARDWARE;
     pe[1].config = PERF_COUNT_HW_BRANCH_MISSES;
+    pe[2].type = PERF_TYPE_HARDWARE;
+    pe[2].config = PERF_COUNT_HW_CACHE_REFERENCES;
+    pe[3].type = PERF_TYPE_HARDWARE;
+    pe[3].config = PERF_COUNT_HW_CACHE_MISSES;
 
     // Create the performance counters
     for (int i = 0; i < NUM_EVENTS; i++) {
@@ -68,7 +66,13 @@ void observe_victim(uint64_t x) {
     }
 
     // Print the results
-    output << x << ";" << count[0] << ";" << count[1] << ";" << (double)count[1] / count[0] << std::endl;
+    output << x << ";" 
+           << count[0] << ";" 
+           << count[1] << ";" 
+           << (double)count[1] / count[0] << ";" 
+           << count[2] << ";" 
+           << count[3] << ";"
+           << (double)count[2] / count[3] << std::endl;
     output.flush();
 }
 
@@ -82,15 +86,13 @@ void flush_cache() {
 
 int main()
 {
-    output << "Index;Branch instructions;Branch misses;Branch miss rate" << std::endl;
-    //output << "Index;Cache references;Cache misses;Cache miss rate" << std::endl;
-    for (int i = 1; i < 101; i++) {
-        //flush_cache();
+    output << "Index;Branch instructions;Branch misses;Branch miss rate;Cache misses;Cache miss rate" << std::endl;
+    for (int i = 0; i < 1000; i++) {
         if (i % 25 == 0) {
-            observe_victim(12);
+            observe_victim(i % array_size + array_size);
         }
         else {
-            observe_victim(i % 10);
+            observe_victim(i % array_size);
         }
     }
     output.close();
