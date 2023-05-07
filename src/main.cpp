@@ -78,15 +78,91 @@ void flush_cache() {
 int main()
 {
     output << "Index;Cache references;Cache misses;Cache miss rate" << std::endl;
-    for (int i = 1; i < 101; i++) {
-        //flush_cache();
-        if (i % 25 == 0) {
-            observe_victim(12);
-        }
-        else {
-            observe_victim(i % 10);
-        }
-    }
+    //for (int i = 1; i < 101; i++) {
+    //    //flush_cache();
+    //    if (i % 25 == 0) {
+    //        observe_victim(12);
+    //    }
+    //    else {
+    //        observe_victim(i % 10);
+    //    }
+    //}
+    observe_victim(0);
+    observe_victim(0);
+    observe_victim(0);
+    observe_victim(0);
+    observe_victim(0);
+    observe_victim(0);
+    observe_victim(0);
+    observe_victim(0);
+    observe_victim(0);
+    observe_victim(0);
+    observe_victim(0);
+    observe_victim(0);
+    observe_victim(0);
+    observe_victim(0);
+    observe_victim(0);
+    observe_victim(0);
+    observe_victim(0);
+    observe_victim(0);
+    observe_victim(0);
+    observe_victim(0);
+    observe_victim(0);
+    observe_victim(0);
+    observe_victim(0);
+    observe_victim(0);
+    observe_victim(0);
+    observe_victim(0);
+    observe_victim(0);
+    observe_victim(0);
+    observe_victim(0);
+    observe_victim(0);
+    observe_victim(0);
+    observe_victim(0);
+    observe_victim(0);
+    observe_victim(0);
+    observe_victim(0);
+    observe_victim(0);
+    observe_victim(0);
+    observe_victim(0);
+    observe_victim(0);
+    observe_victim(0);
+    observe_victim(0);
+    observe_victim(0);
+    observe_victim(0);
+    observe_victim(0);
+    observe_victim(0);
+    observe_victim(0);
+    observe_victim(0);
+    observe_victim(0);
+    observe_victim(0);
+    observe_victim(0);
+    observe_victim(0);
+    observe_victim(0);
+    observe_victim(0);
+    observe_victim(0);
+    observe_victim(0);
+    observe_victim(0);
+    observe_victim(0);
+    observe_victim(0);
+    observe_victim(0);
+    observe_victim(0);
+    observe_victim(124);
+    observe_victim(0);
+    observe_victim(0);
+    observe_victim(0);
+    observe_victim(0);
+    observe_victim(0);
+    observe_victim(0);
+    observe_victim(0);
+    observe_victim(0);
+    observe_victim(0);
+    observe_victim(0);
+    observe_victim(0);
+    observe_victim(0);
+    observe_victim(0);
+    observe_victim(0);
+    observe_victim(0);
     output.close();
 
     return 0;
