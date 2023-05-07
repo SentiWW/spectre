@@ -32,10 +32,15 @@ void observe_victim(uint64_t x) {
     memset(&pe, 0, sizeof(struct perf_event_attr) * NUM_EVENTS);
 
     // Define the performance events to monitor
+    //pe[0].type = PERF_TYPE_HARDWARE;
+    //pe[0].config = PERF_COUNT_HW_CACHE_REFERENCES;
+    //pe[1].type = PERF_TYPE_HARDWARE;
+    //pe[1].config = PERF_COUNT_HW_CACHE_MISSES;
+
     pe[0].type = PERF_TYPE_HARDWARE;
-    pe[0].config = PERF_COUNT_HW_CACHE_REFERENCES;
+    pe[0].config = PERF_COUNT_HW_BRANCH_INSTRUCTIONS;
     pe[1].type = PERF_TYPE_HARDWARE;
-    pe[1].config = PERF_COUNT_HW_CACHE_MISSES;
+    pe[1].config = PERF_COUNT_HW_BRANCH_MISSES;
 
     // Create the performance counters
     for (int i = 0; i < NUM_EVENTS; i++) {
@@ -77,7 +82,8 @@ void flush_cache() {
 
 int main()
 {
-    output << "Index;Cache references;Cache misses;Cache miss rate" << std::endl;
+    output << "Index;Branch instructions;Branch misses;Branch miss rate" << std::endl;
+    //output << "Index;Cache references;Cache misses;Cache miss rate" << std::endl;
     //for (int i = 1; i < 101; i++) {
     //    //flush_cache();
     //    if (i % 25 == 0) {
