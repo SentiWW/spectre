@@ -9,6 +9,17 @@
 
 #define NUM_EVENTS 2
 
+uint64_t array_size = 10;
+uint64_t array[10] = {
+    0, 1, 2, 3, 4, 5, 6, 7, 8, 9
+}
+
+void victim_function(uint64_t x) {
+    if (x < array_size) {
+        uint64_t temp = array[x];
+    }
+}
+
 int main()
 {
     struct perf_event_attr pe[NUM_EVENTS];
