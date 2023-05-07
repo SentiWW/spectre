@@ -90,7 +90,7 @@ void attacker_function() {
     int i;
     unsigned long long time1, time2;
     volatile unsigned char *addr;
-    volatile unsigned int junk = 0;
+    unsigned int junk = 0;
     unsigned char val;
 
     for (i = 0; i < 256; i++) {
