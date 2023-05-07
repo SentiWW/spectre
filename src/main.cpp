@@ -64,6 +64,8 @@ void observe_victim(uint64_t x) {
     std::ofstream output("output.csv");
     output << "Index;Cache references;Cache misses;Cache miss rate" << std::endl;
     output << x << ";" << count[0] << ";" << count[1] << ";" << (double)count[1] / count[0] << std::endl;
+    output.flush();
+    output.close();
 }
 
 void flush_cache() {
