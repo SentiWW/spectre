@@ -67,14 +67,10 @@ void observe_victim(uint64_t x) {
     std::cout << "Cache miss rate: " << count[1] / count[0] << std::endl;
 }
 
+unsigned char probe_array[256 * 4096] = {0};
 void flush_cache() {
-    // Get the number of online CPUs
-    long nprocs = sysconf(_SC_NPROCESSORS_ONLN);
-
-    // Flush the cache for each CPU
-    for (int i = 0; i < nprocs; ++i) {
-        // Use the cacheflush system call to flush the cache
-        syscall(__NR_cacheflush, nullptr, 0, CACHE_FLUSH);
+    for (int i = 0; i < 256; i++) {
+        _mm_clflush(&probe_array[i * 4096]);
     }
 }
 
