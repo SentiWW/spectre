@@ -78,8 +78,8 @@ void flush_cache() {
 int main()
 {
     output << "Index;Cache references;Cache misses;Cache miss rate" << std::endl;
-    for (int i = 0; i < 100; i++) {
-        flush_cache();
+    for (int i = 1; i < 101; i++) {
+        //flush_cache();
         if (i % 25 == 0) {
             observe_victim(12);
         }
