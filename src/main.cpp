@@ -8,9 +8,11 @@
 #include <linux/perf_event.h>
 #include <linux/types.h>
 #include <fstream>
+#include <x86intrin.h>
+#include <emmintrin.h>
 
 #define NUM_EVENTS 4
-
+#define CACHE_HIT_THRESHOLD 80
 
 std::ofstream output("output.csv");
 int array_size = 10;
