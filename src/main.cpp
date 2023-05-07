@@ -7,7 +7,6 @@
 #include <sys/syscall.h>
 #include <linux/perf_event.h>
 #include <linux/types.h>
-#include <asm/cachectl.h>
 
 #define NUM_EVENTS 2
 
