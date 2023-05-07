@@ -71,7 +71,7 @@ void observe_victim(int x) {
     output << x << ";" 
            << count[0] << ";" 
            << count[1] << ";" 
-           << (double)count[1] / count[0] << std::endl;
+           << (double)count[1] / count[0] << ";";
 }
 
 //unsigned char probe_array[256 * 4096];
@@ -116,14 +116,16 @@ int main()
     //attacker_function();
     //return 0;
     
-    output << "Index;Branch instructions;Branch misses;Branch miss rate" << std::endl;
+    output << "Index;Branch instructions;Branch misses;Branch miss rate;Attack" << std::endl;
     //output << "Index;Branch instructions;Branch misses;Branch miss rate;Cache references;Cache misses;Cache miss rate" << std::endl;
     for (int i = 0; i < 1000000; i++) {
         if (i % 25 == 0) {
             observe_victim(i % array_size + array_size);
+            output << 1 << std::endl;
         }
         else {
             observe_victim(i % array_size);
+            output << 0 << std::endl;
         }
     }
     output.flush();
