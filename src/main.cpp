@@ -1,4 +1,4 @@
-#include <stdio.h>
+#include <iostream>
 #include <stdlib.h>
 #include <cstring>
 #include <cstdint>
@@ -27,7 +27,7 @@ int main()
     for (int i = 0; i < NUM_EVENTS; i++) {
         fd[i] = syscall(__NR_perf_event_open, &pe[i], 0, -1, -1, 0);
         if (fd[i] == -1) {
-            printf("Error opening perf event %d\n", i);
+            std::cout << "Error opening perf event: " << i << std::endl;
             exit(EXIT_FAILURE);
         }
     }
@@ -48,8 +48,8 @@ int main()
     }
 
     // Print the results
-    printf("Instructions: %llu\n", count[0]);
-    printf("CPU Cycles: %llu\n", count[1]);
+    std::cout << "Instructions: " << count[0] << std::endl;
+    std::cout << "CPU Cycles: " << count[1] << std::endl;
 
     return 0;
 }
