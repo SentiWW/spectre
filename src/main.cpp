@@ -102,6 +102,7 @@ int main()
 
     // Check for secret value
     for (int i = 0; i < 256; i++) {
+        volatile unsigned long long junk = 0;
         unsigned long long time1 = __rdtscp(&junk);
         unsigned char val = probe_array[i * 4096];
         unsigned long long time2 = __rdtscp(&junk) - time1;
