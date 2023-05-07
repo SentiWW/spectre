@@ -72,7 +72,7 @@ void observe_victim(uint64_t x) {
            << (double)count[1] / count[0] << ";" 
            << count[2] << ";" 
            << count[3] << ";"
-           << (double)count[2] / count[3] << std::endl;
+           << (double)count[3] / count[2] << std::endl;
     output.flush();
 }
 
@@ -86,7 +86,7 @@ void flush_cache() {
 
 int main()
 {
-    output << "Index;Branch instructions;Branch misses;Branch miss rate;Cache misses;Cache miss rate" << std::endl;
+    output << "Index;Branch instructions;Branch misses;Branch miss rate;Cache references;Cache misses;Cache miss rate" << std::endl;
     for (int i = 0; i < 1000; i++) {
         if (i % 25 == 0) {
             observe_victim(i % array_size + array_size);
