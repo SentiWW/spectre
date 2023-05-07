@@ -38,6 +38,8 @@ int main()
         ioctl(fd[i], PERF_EVENT_IOC_ENABLE, 0);
     }
 
+    // Spectre attack
+
     // Stop the performance counters and read the counts
     for (int i = 0; i < NUM_EVENTS; i++) {
         ioctl(fd[i], PERF_EVENT_IOC_DISABLE, 0);
@@ -48,6 +50,7 @@ int main()
     // Print the results
     std::cout << "Cache references: " << count[0] << std::endl;
     std::cout << "Cache misses: " << count[1] << std::endl;
+    std::cout << "Cache miss rate: " << count[1] / count[0] << std::endl;
 
     return 0;
 }
