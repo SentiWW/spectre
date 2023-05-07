@@ -7,6 +7,7 @@
 #include <sys/syscall.h>
 #include <linux/perf_event.h>
 #include <linux/types.h>
+#include <fstream>
 
 #define NUM_EVENTS 2
 
@@ -60,36 +61,30 @@ void observe_victim(uint64_t x) {
     }
 
     // Print the results
-    std::cout << "Accessing index: " << x << std::endl;
-    std::cout << "Cache references: " << count[0] << std::endl;
-    std::cout << "Cache misses: " << count[1] << std::endl;
-    std::cout << "Cache miss rate: " << count[1] / count[0] << std::endl;
+    std::ofstream output("output.csv");
+    output << "Index;Cache references;Cache misses;Cache miss rate" << std::endl;
+    output << x << ";" << count[0] << ";" << count[1] << ";" << (double)count[1] / count[0] << std::endl;
 }
 
 void flush_cache() {
     const int size = 20*1024*1024;
      char *c = (char *)malloc(size);
-     for (int i = 0; i < 0xffff; i++)
+     for (int i = 0; i < 10; i++)
        for (int j = 0; j < size; j++)
          c[j] = i*j;
 }
 
 int main()
 {
-    flush_cache();
-    observe_victim(0);
-    flush_cache();
-    observe_victim(0);
-    flush_cache();
-    observe_victim(0);
-    flush_cache();
-    observe_victim(0);
-    flush_cache();
-    observe_victim(0);
-    flush_cache();
-    observe_victim(0);
-    flush_cache();
-    observe_victim(12);
+    for (int i = 0; i < 100; i++) {
+        flush_cache();
+        if (i % 25 == 0) {
+            observe_victim(12);
+        }
+        else {
+            observe_victim(i % 10);
+        }
+    }
 
     return 0;
 }
