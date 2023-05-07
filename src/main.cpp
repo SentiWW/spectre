@@ -19,9 +19,9 @@ int main()
 
     // Define the performance events to monitor
     pe[0].type = PERF_TYPE_HARDWARE;
-    pe[0].config = PERF_COUNT_HW_INSTRUCTIONS;
+    pe[0].config = PERF_COUNT_HW_CACHE_REFERENCES;
     pe[1].type = PERF_TYPE_HARDWARE;
-    pe[1].config = PERF_COUNT_HW_CPU_CYCLES;
+    pe[1].config = PERF_COUNT_HW_CACHE_MISSES;
 
     // Create the performance counters
     for (int i = 0; i < NUM_EVENTS; i++) {
@@ -38,8 +38,6 @@ int main()
         ioctl(fd[i], PERF_EVENT_IOC_ENABLE, 0);
     }
 
-    // Run your code here...
-
     // Stop the performance counters and read the counts
     for (int i = 0; i < NUM_EVENTS; i++) {
         ioctl(fd[i], PERF_EVENT_IOC_DISABLE, 0);
@@ -48,8 +46,8 @@ int main()
     }
 
     // Print the results
-    std::cout << "Instructions: " << count[0] << std::endl;
-    std::cout << "CPU Cycles: " << count[1] << std::endl;
+    std::cout << "Cache references: " << count[0] << std::endl;
+    std::cout << "Cache misses: " << count[1] << std::endl;
 
     return 0;
 }
