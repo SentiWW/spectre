@@ -1,5 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <cstring>
+#include <cstdint>
 #include <unistd.h>
 #include <sys/ioctl.h>
 #include <sys/syscall.h>
