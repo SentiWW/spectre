@@ -1,0 +1,3 @@
+/home/senti/Projects/spectre/CMakeFiles/spectre.dir
+/home/senti/Projects/spectre/CMakeFiles/edit_cache.dir
+/home/senti/Projects/spectre/CMakeFiles/rebuild_cache.dir
