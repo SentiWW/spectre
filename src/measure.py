@@ -1,5 +1,4 @@
 import subprocess
-import time
 from concurrent.futures import ThreadPoolExecutor
 
 def run_perf_command(event):
@@ -29,7 +28,7 @@ def main():
 
 if __name__ == "__main__":
     with open("output-measure.csv", "a") as file:
-        file.write("start time;end time;cache misses;cache references;branch instructions;branch misses;cache miss rate;branch miss rate\n")
+        file.write("cache misses;cache references;branch instructions;branch misses;cache miss rate;branch miss rate\n")
 
     for i in range(1200):
         main()

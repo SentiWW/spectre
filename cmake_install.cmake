@@ -1,4 +1,4 @@
-# Install script for directory: /home/senti/Pulpit/Projects/spectre
+# Install script for directory: /home/senti/Projects/spectre
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -50,5 +50,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "/home/senti/Pulpit/Projects/spectre/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "/home/senti/Projects/spectre/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")
